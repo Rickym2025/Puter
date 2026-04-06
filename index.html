@@ -3,52 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to Speech con Puter.js</title>
+    <title>Text to Speech con Puter.js (Voci Native)</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
-        textarea { width: 100%; height: 100px; margin: 10px 0; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
-        select { padding: 10px; margin-bottom: 15px; border-radius: 5px; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+        textarea { width: 100%; height: 100px; margin: 10px 0; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;}
+        select { padding: 10px; margin-bottom: 15px; border-radius: 5px; font-size: 16px; width: 100%; }
+        button { padding: 12px 24px; font-size: 18px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold;}
         button:hover { background-color: #0056b3; }
+        .info { font-size: 12px; color: #666; margin-top: 20px;}
     </style>
 </head>
 <body>
-    <h2>Text-to-Speech Gratuito</h2>
+    <h2>Text-to-Speech (Italiano Naturale)</h2>
     
-    <textarea id="text-input" placeholder="Scrivi qui qualcosa da far leggere..."></textarea>
+    <textarea id="text-input" placeholder="Scrivi qui il testo in italiano..."></textarea>
     <br>
     
-    <select id="language-select">
-        <option value="it-IT">Italiano</option>
-        <option value="en-US">Inglese (US)</option>
-        <option value="fr-FR">Francese</option>
-        <option value="de-DE">Tedesco</option>
-        <option value="es-ES">Spagnolo</option>
+    <!-- Selezione della voce specifica italiana -->
+    <select id="voice-select">
+        <option value="Bianca">Voce Femminile (Bianca - Neurale)</option>
+        <option value="Adriano">Voce Maschile (Adriano - Neurale)</option>
+        <option value="Carla">Voce Femminile (Carla - Standard)</option>
+        <option value="Giorgio">Voce Maschile (Giorgio - Standard)</option>
     </select>
     <br>
     
-    <button id="speak-button">Parla 🔊</button>
+    <button id="speak-button">Ascolta 🔊</button>
+
+    <p class="info">Utilizza il motore neurale ad alta qualità di Puter.js</p>
 
     <!-- Importa Puter.js -->
     <script src="https://js.puter.com/v2/"></script>
     <script>
         document.getElementById('speak-button').addEventListener('click', () => {
             const text = document.getElementById('text-input').value;
-            const language = document.getElementById('language-select').value;
+            const voice = document.getElementById('voice-select').value;
+            const button = document.getElementById('speak-button');
             
             if(!text) {
                 alert("Per favore, inserisci del testo!");
                 return;
             }
 
-            // Chiama l'API di Puter.js
-            puter.ai.txt2speech(text, language)
+            // Disabilita il bottone mentre carica
+            button.disabled = true;
+            button.innerText = "Caricamento in corso...";
+
+            // Configurazioni avanzate: Motore Neurale e Lingua fissa
+            const options = {
+                language: "it-IT",
+                voice: voice,
+                engine: (voice === "Bianca" || voice === "Adriano") ? "neural" : "standard"
+            };
+
+            // Chiama l'API
+            puter.ai.txt2speech(text, options)
                 .then((audio) => {
                     audio.play();
+                    button.disabled = false;
+                    button.innerText = "Ascolta 🔊";
                 })
                 .catch((error) => {
                     console.error('Errore:', error);
-                    alert("Si è verificato un errore.");
+                    alert("Si è verificato un errore durante la generazione dell'audio.");
+                    button.disabled = false;
+                    button.innerText = "Ascolta 🔊";
                 });
         });
     </script>
