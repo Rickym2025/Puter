@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech con Puter.js</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
+        textarea { width: 100%; height: 100px; margin: 10px 0; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+        select { padding: 10px; margin-bottom: 15px; border-radius: 5px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h2>Text-to-Speech Gratuito</h2>
+    
+    <textarea id="text-input" placeholder="Scrivi qui qualcosa da far leggere..."></textarea>
+    <br>
+    
+    <select id="language-select">
+        <option value="it-IT">Italiano</option>
+        <option value="en-US">Inglese (US)</option>
+        <option value="fr-FR">Francese</option>
+        <option value="de-DE">Tedesco</option>
+        <option value="es-ES">Spagnolo</option>
+    </select>
+    <br>
+    
+    <button id="speak-button">Parla 🔊</button>
+
+    <!-- Importa Puter.js -->
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        document.getElementById('speak-button').addEventListener('click', () => {
+            const text = document.getElementById('text-input').value;
+            const language = document.getElementById('language-select').value;
+            
+            if(!text) {
+                alert("Per favore, inserisci del testo!");
+                return;
+            }
+
+            // Chiama l'API di Puter.js
+            puter.ai.txt2speech(text, language)
+                .then((audio) => {
+                    audio.play();
+                })
+                .catch((error) => {
+                    console.error('Errore:', error);
+                    alert("Si è verificato un errore.");
+                });
+        });
+    </script>
+</body>
+</html>
