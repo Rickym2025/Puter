@@ -3,71 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to Speech con Puter.js (Voci Native)</title>
+    <title>Text to Speech PRO con Puter.js</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; }
-        textarea { width: 100%; height: 100px; margin: 10px 0; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px;}
-        select { padding: 10px; margin-bottom: 15px; border-radius: 5px; font-size: 16px; width: 100%; }
-        button { padding: 12px 24px; font-size: 18px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold;}
-        button:hover { background-color: #0056b3; }
-        .info { font-size: 12px; color: #666; margin-top: 20px;}
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; text-align: center; background-color: #f9f9f9;}
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 120px; margin: 10px 0; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; resize: vertical;}
+        select { padding: 12px; margin-bottom: 15px; border-radius: 8px; font-size: 16px; width: 100%; border: 1px solid #ccc; cursor: pointer; }
+        optgroup { font-weight: bold; color: #333; }
+        button { padding: 14px 28px; font-size: 18px; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 8px; font-weight: bold; width: 100%; transition: 0.3s;}
+        button:hover { background-color: #218838; }
+        button:disabled { background-color: #6c757d; cursor: not-allowed; }
+        .info { font-size: 13px; color: #666; margin-top: 15px; text-align: left;}
     </style>
 </head>
 <body>
-    <h2>Text-to-Speech (Italiano Naturale)</h2>
-    
-    <textarea id="text-input" placeholder="Scrivi qui il testo in italiano..."></textarea>
-    <br>
-    
-    <!-- Selezione della voce specifica italiana -->
-    <select id="voice-select">
-        <option value="Bianca">Voce Femminile (Bianca - Neurale)</option>
-        <option value="Adriano">Voce Maschile (Adriano - Neurale)</option>
-        <option value="Carla">Voce Femminile (Carla - Standard)</option>
-        <option value="Giorgio">Voce Maschile (Giorgio - Standard)</option>
-    </select>
-    <br>
-    
-    <button id="speak-button">Ascolta 🔊</button>
+    <div class="card">
+        <h2>Studio Vocale Multilingua 🎙️</h2>
+        
+        <textarea id="text-input" placeholder="Scrivi il testo qui... Prova anche a scrivere 'Ahah!' oppure 'Uff...' per testare le emozioni."></textarea>
+        
+        <!-- Dropdown organizzato con OptGroup e attributi dati per la lingua -->
+        <select id="voice-select">
+            
+            <optgroup label="🇮🇹 Italiano">
+                <option value="Bianca" data-lang="it-IT">Italiano - Bianca (Femminile)</option>
+                <option value="Carla" data-lang="it-IT">Italiano - Carla (Femminile)</option>
+                <option value="Adriano" data-lang="it-IT">Italiano - Adriano (Maschile)</option>
+                <option value="Giorgio" data-lang="it-IT">Italiano - Giorgio (Maschile)</option>
+            </optgroup>
 
-    <p class="info">Utilizza il motore neurale ad alta qualità di Puter.js</p>
+            <optgroup label="🇬🇧 Inglese (Professionale)">
+                <option value="Joanna" data-lang="en-US">Inglese US - Joanna (Femminile)</option>
+                <option value="Amy" data-lang="en-GB">Inglese UK - Amy (Femminile)</option>
+                <option value="Matthew" data-lang="en-US">Inglese US - Matthew (Maschile)</option>
+                <option value="Brian" data-lang="en-GB">Inglese UK - Brian (Maschile)</option>
+            </optgroup>
+
+            <optgroup label="🇩🇪 Tedesco">
+                <option value="Vicki" data-lang="de-DE">Tedesco - Vicki (Femminile)</option>
+                <option value="Marlene" data-lang="de-DE">Tedesco - Marlene (Femminile)</option>
+                <option value="Daniel" data-lang="de-DE">Tedesco - Daniel (Maschile)</option>
+                <option value="Hans" data-lang="de-DE">Tedesco - Hans (Maschile)</option>
+            </optgroup>
+
+            <optgroup label="🇪🇸 Spagnolo">
+                <option value="Lucia" data-lang="es-ES">Spagnolo - Lucia (Femminile)</option>
+                <option value="Conchita" data-lang="es-ES">Spagnolo - Conchita (Femminile)</option>
+                <option value="Sergio" data-lang="es-ES">Spagnolo - Sergio (Maschile)</option>
+                <option value="Enrique" data-lang="es-ES">Spagnolo - Enrique (Maschile)</option>
+            </optgroup>
+
+        </select>
+
+        <select id="engine-select">
+            <option value="neural">Motore Neurale (Voce Naturale e Fluida)</option>
+            <option value="generative">Motore Generativo (Migliore per recitazione ed emozioni)</option>
+            <option value="standard">Motore Standard (Classico)</option>
+        </select>
+        
+        <button id="speak-button">Genera Audio ▶️</button>
+
+        <p class="info">
+            💡 <b>Suggerimento Emozioni:</b> Seleziona il "Motore Generativo" e prova a inserire nel testo onomatopee come <i>"Ahah!"</i>, <i>"Mhm..."</i> o <i>"Ugh"</i>. L'IA proverà a interpretarle vocalmente anziché leggerle letteralmente.
+        </p>
+    </div>
 
     <!-- Importa Puter.js -->
     <script src="https://js.puter.com/v2/"></script>
     <script>
         document.getElementById('speak-button').addEventListener('click', () => {
             const text = document.getElementById('text-input').value;
-            const voice = document.getElementById('voice-select').value;
+            
+            // Ottengo l'opzione voce selezionata
+            const voiceSelect = document.getElementById('voice-select');
+            const selectedVoiceOption = voiceSelect.options[voiceSelect.selectedIndex];
+            
+            const voiceName = selectedVoiceOption.value;
+            const languageCode = selectedVoiceOption.getAttribute('data-lang'); // Prende il codice lingua nascosto
+            
+            const engineType = document.getElementById('engine-select').value;
             const button = document.getElementById('speak-button');
             
-            if(!text) {
-                alert("Per favore, inserisci del testo!");
+            if(!text.trim()) {
+                alert("Per favore, inserisci del testo da far leggere!");
                 return;
             }
 
-            // Disabilita il bottone mentre carica
+            // Cambia stato del bottone
             button.disabled = true;
-            button.innerText = "Caricamento in corso...";
+            button.innerText = "⏳ Generazione in corso...";
 
-            // Configurazioni avanzate: Motore Neurale e Lingua fissa
+            // Crea le opzioni per Puter.js
             const options = {
-                language: "it-IT",
-                voice: voice,
-                engine: (voice === "Bianca" || voice === "Adriano") ? "neural" : "standard"
+                language: languageCode,
+                voice: voiceName,
+                engine: engineType
             };
 
-            // Chiama l'API
+            console.log("Richiesta a Puter:", options); // Utile se apri la console del browser (F12)
+
+            // Chiamata all'Intelligenza Artificiale
             puter.ai.txt2speech(text, options)
                 .then((audio) => {
                     audio.play();
                     button.disabled = false;
-                    button.innerText = "Ascolta 🔊";
+                    button.innerText = "Genera Audio ▶️";
                 })
                 .catch((error) => {
-                    console.error('Errore:', error);
-                    alert("Si è verificato un errore durante la generazione dell'audio.");
+                    console.error('Errore Text-to-Speech:', error);
+                    alert("Ops! Si è verificato un errore. Assicurati che la voce scelta supporti il motore selezionato.");
                     button.disabled = false;
-                    button.innerText = "Ascolta 🔊";
+                    button.innerText = "Riprova ▶️";
                 });
         });
     </script>
